@@ -30,3 +30,14 @@ y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 
 print(accuracy)
+
+results = pd.DataFrame({
+    "text": X_test,
+    "actual": y_test,
+    "predicted": y_pred
+})
+
+# Filter wrong predictions
+errors = results[results["actual"] != results["predicted"]]
+
+print(errors.head(10))
