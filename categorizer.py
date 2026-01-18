@@ -41,3 +41,4 @@ results = pd.DataFrame({
 errors = results[results["actual"] != results["predicted"]]
 
 print(errors.head(10))
+print(len(errors), "errors out of", len(X_test))
