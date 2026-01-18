@@ -32,8 +32,8 @@ accuracy = accuracy_score(y_test, y_pred)
 print(accuracy)
 
 results = pd.DataFrame({
-    "text": X_test,
-    "actual": y_test,
+    "text": X_test.reset_index(drop=True),
+    "actual": y_test.reset_index(drop=True),
     "predicted": y_pred
 })
 
