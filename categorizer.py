@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score
 df = pd.read_csv("C:\\Users\\mailp\\Desktop\\ExpP\\Expense-Categorizer\\expenses.csv")
 
 X = df["text"]
-y = df["category"]
+y = df["category"].str.strip().str.lower()
 
 # Train-test split (engineering discipline)
 X_train, X_test, y_train, y_test = train_test_split(
