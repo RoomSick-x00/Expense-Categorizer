@@ -98,3 +98,12 @@ print(lr_errors.head(10))
 print(len(lr_errors), "errors out of", len(X_test))
 
 
+nb_results = pd.DataFrame({
+    "text": X_test.reset_index(drop=True),
+    "actual": y_test.reset_index(drop=True),
+    "predicted": nb_pred
+})
+
+nb_errors = nb_results[nb_results["actual"] != nb_results["predicted"]]
+
+print(len(nb_errors), "Naive Bayes errors")
