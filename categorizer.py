@@ -44,6 +44,19 @@
 # print(len(errors), "errors out of", len(X_test))
 
 
+MERCHANT_RULES = {
+  "swiggy": "Food",
+  "zomato": "Food",
+  "ubereats": "Food",
+  "uber": "Transport",
+  "ola": "Transport",
+  "amazon": "Shopping",
+  "flipkart": "Shopping",
+  "apollo": "Health",
+  "pharmeasy": "Health"
+}
+
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
