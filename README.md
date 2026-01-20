@@ -1,126 +1,106 @@
-# Expense Categorizer (v0.1)
+# Expense Categorizer
+
+A classical machine learning project to automatically categorize expense descriptions into fixed categories using text-based features.
+
+This project is intentionally built **without deep learning**, focusing on fundamentals, intuition, and engineering discipline.
+
+---
 
 ## 1. Problem Statement
 
-Personal expense descriptions are short, informal, and inconsistent:
+Expense categorization is often implemented using rule-based systems:
 
-* "swiggy dinner"
-* "uber ride"
-* "amazon purchase"
+* Keyword matching ("pizza" → Food)
+* Merchant hardcoding ("Uber" → Transport)
 
-Rule-based categorization (if–else, keyword matching) fails quickly because:
+These approaches fail because:
 
-* Wording varies widely for the same intent
-* New brands or phrases break existing rules
-* Rules become hard to scale and maintain
-* Ambiguous descriptions cannot be handled cleanly
+* Language is ambiguous ("movie rental" vs "car rental")
+* Descriptions are short and noisy
+* Rules do not generalize
+* Maintenance cost grows exponentially
 
-This project explores whether **classical machine learning** can learn patterns from real examples instead of relying on brittle rules.
+This project explores whether **classical machine learning** can handle these ambiguities better than rigid rules.
 
 ---
 
 ## 2. Approach
 
-This project uses a **classical supervised machine learning pipeline**.
+We treat expense categorization as a **supervised text classification** problem.
 
-### Learning Paradigm
+### Model Pipeline
 
-* **Supervised learning**
-* Input: expense description (text)
-* Output: one fixed expense category
+* Text input → TF-IDF vectorization
+* Vectorized text → Classical ML classifier
 
-### Text Representation
+### Models Used
 
-* **TF-IDF (Term Frequency – Inverse Document Frequency)**
-* Converts raw text into numeric feature vectors
-* Emphasizes rare but informative words (e.g., "swiggy", "uber")
-* De-emphasizes common words (e.g., "to", "from", "the")
+* **v0.1**: Multinomial Naive Bayes (baseline)
+* **v0.2**: Logistic Regression (comparison model)
 
-### Classifier
+Why classical ML:
 
-* **Multinomial Naive Bayes**
-* Well-suited for text classification
-* Fast, interpretable, and effective for small datasets
-* Serves as a strong and widely-used baseline
+* Interpretable behavior
+* Works well on small datasets
+* Fast training and inference
+* Easy to debug
 
-The final pipeline:
-
-```
-Raw Text → TF-IDF Vectorizer → Naive Bayes Classifier → Category
-```
+Deep learning is intentionally avoided.
 
 ---
 
 ## 3. Dataset
 
-### Dataset Characteristics
+* Manually curated expense descriptions
+* ~N labeled samples
+* Short, real-world text entries
 
-* **Manually curated dataset**
-* Approximately **~N samples**
-* Each row contains:
-
-  * Expense description (text)
-  * Expense category (label)
-
-### Fixed Categories (v0.1)
+### Categories (fixed)
 
 * Food
 * Transport
 * Shopping
-* Bills
 * Entertainment
 * Health
-
-Categories are **fixed and mutually exclusive** for v0.1.
+* Utilities
 
 ### Label Normalization
 
-Before training, category labels are normalized:
+* Lowercasing
+* Consistent category naming
+* Removal of accidental duplicates
 
-* Trimmed whitespace
-* Converted to lowercase
-
-This prevents silent bugs caused by visually identical but unequal labels (e.g., `"Shopping"` vs `"Shopping "`).
+Dataset is kept small on purpose to expose model limitations.
 
 ---
 
 ## 4. Results
 
-### Accuracy
+### v0.1 — Naive Bayes
 
-* Accuracy varies depending on the train–test split
-* Typical accuracy observed: **~65–75%**
+* Accuracy: ~65–70%
+* Strengths:
 
-This is expected given:
+  * Fast
+  * Stable
+* Weaknesses:
 
-* Small dataset size
-* Short and ambiguous text descriptions
+  * Confusion between similar categories
+  * Sensitive to word overlap
+
+### v0.2 — Logistic Regression
+
+* Accuracy: ~90%+
+* Clear improvement over Naive Bayes
+* Errors are fewer and more reasonable
 
 ### Typical Failure Modes
 
-* **Ambiguous descriptions**
+* Very short descriptions ("Xbox Series X")
+* Brand-only inputs
+* Overlapping semantic categories (Food vs Health)
 
-  * e.g., "amazon purchase", "payment"
-
-* **Category overlap**
-
-  * e.g., "movie rental" confused with transport-related rentals
-
-* **Sparse categories**
-
-  * Categories with fewer examples (e.g., Health) perform worse
-
-* **Very short text inputs**
-
-  * Fewer words → weaker TF-IDF signal
-
-### Why These Errors Are Acceptable
-
-* Errors are explainable and consistent
-* Failures reflect data limitations, not random behavior
-* Model behavior matches expectations of TF-IDF–based systems
-
-The goal of v0.1 is **understanding and correctness**, not maximum accuracy.
+These errors are acceptable given the lack of context and metadata.
 
 ---
 
@@ -128,29 +108,25 @@ The goal of v0.1 is **understanding and correctness**, not maximum accuracy.
 
 ### Why No Deep Learning
 
-* Deep learning requires significantly more data
-* Adds unnecessary complexity for this problem size
-* Hides core learning intuition behind abstractions
-
-Classical ML provides better transparency and learning value.
+* Dataset too small
+* Harder to interpret
+* Adds unnecessary complexity
+* Violates engineering simplicity
 
 ### Why No Overengineering
 
-* No online learning
-* No auto-correction loops
-* No hyperparameter tuning obsession
-* No model ensembling
+* No hyperparameter tuning
+* No feature explosion
+* No premature optimization
 
-Each design choice keeps the system:
-
-* Understandable
-* Debuggable
-* Easy to reason about end-to-end
+Each version adds **one dimension of complexity only**.
 
 ---
 
-## Version Status
+## Current Status
 
-* **v0.1 is frozen**
-* Focus: correctness, intuition, and ML fundamentals
-* Future versions will build incrementally on this foundation
+* v0.1: Baseline model complete
+* v0.2: Model comparison complete
+* Logistic Regression selected as default
+
+Next step: feature engineering and hybrid rule + ML systems (v0.3).
