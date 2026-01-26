@@ -1,4 +1,4 @@
-import joblib
+import joblib #a fast and reliable way to save and load python objects to disk
 from rules import apply_rules
 
 # Load trained model ONCE

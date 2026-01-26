@@ -21,7 +21,7 @@ def merchant_rule(text: str):
     for merchant, category in MERCHANT_RULES.items():
         if merchant in text:
             return category
-
+        
     return None
 
 def is_ambiguous(text: str) -> bool:
