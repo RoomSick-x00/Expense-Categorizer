@@ -1,2 +1,7 @@
 predump.py
+
 model.pkl
+
+# Python cache
+__pycache__/
+*.pyc
