@@ -7,7 +7,10 @@ MERCHANT_RULES = {
     "amazon": "Shopping",
     "flipkart": "Shopping",
     "apollo": "Health",
-    "pharmeasy": "Health"
+    "pharmeasy": "Health",
+    "lunch": "Food",
+    "breakfast": "Food",
+    "dinner": "Food",
 }
 
 FOOD_AMOUNT_THRESHOLD = 100

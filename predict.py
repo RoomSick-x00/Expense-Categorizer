@@ -2,7 +2,7 @@ import joblib #a fast and reliable way to save and load python objects to disk
 from rules import apply_rules
 
 # Load trained model ONCE
-ml_model = joblib.load("model.pkl")
+ml_model = joblib.load("C:\\Users\\mailp\\Desktop\\ExpP\\Expense-Categorizer\\model.pkl")
 
 def predict_expense(text, amount):
     rule_prediction = apply_rules(text, amount)
