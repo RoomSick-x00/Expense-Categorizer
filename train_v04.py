@@ -6,17 +6,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-
-def bucket_amount(amount: int) -> str:
-    if amount < 100:
-        return "low"
-    elif amount < 500:
-        return "medium"
-    elif amount < 2000:
-        return "high"
-    else:
-        return "very_high"
-
+from features import bucket_amount  
 
 df = pd.read_csv("expenses.csv")
 

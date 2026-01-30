@@ -1,5 +1,9 @@
 import joblib #a fast and reliable way to save and load python objects to disk
 from rules import apply_rules
+from features import bucket_amount
+
+bucket = bucket_amount(amount)
+
 
 # Load trained model ONCE
 ml_model = joblib.load("C:\\Users\\mailp\\Desktop\\ExpP\\Expense-Categorizer\\model.pkl")
