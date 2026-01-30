@@ -7,7 +7,22 @@ from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
+def bucket_amount(amount: int) -> str:
+    if amount < 100:
+        return "low"
+    elif amount < 500:
+        return "medium"
+    elif amount < 2000:
+        return "high"
+    else:
+        return "very_high"
+
+
 df = pd.read_csv("expenses.csv")
+
+df.columns = df.columns.str.strip()
+
+df["amount_bucket"] = df["amount"].apply(bucket_amount)
 
 X = df[["text", "amount"]]
 y = df["category"].str.lower().str.strip()
