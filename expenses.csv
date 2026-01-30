@@ -1,4 +1,4 @@
-text, Amount, category
+text, amount, category
 "swiggy dinner",150,Food
 "uber ride home",200,Transport
 "electricity bill april",300,Bills
