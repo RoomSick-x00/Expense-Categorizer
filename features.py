@@ -1,14 +1,16 @@
 def text_len_feature(text: str) -> int:
     return len(text.split())
 
-def amount_bucket(amount: float)-> str:
-    if amount < 70:
+def bucket_amount(amount: int) -> str:
+    if amount < 100:
         return "low"
-    if amount <= 600:
+    elif amount < 500:
         return "medium"
-    else:
+    elif amount < 2000:
         return "high"
-    
+    else:
+        return "very_high"
+
 from rules import MERCHANT_RULES
 
 def has_known_merchant(text: str) -> int:
@@ -42,3 +44,4 @@ def extract_structured_features(text: str, amount: float) -> dict:
 
     features.update(keyword_features(text))
     return features
+

@@ -6,15 +6,31 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-from features import bucket_amount  
+from features import (
+    bucket_amount,
+    extract_structured_features
+)
 
 df = pd.read_csv("expenses.csv")
 
-df.columns = df.columns.str.strip()
+structured_df = df["text"].apply(extract_structured_features)
+structured_df = pd.DataFrame(structured_df.tolist())
 
+df = pd.concat([df, structured_df], axis=1)
 df["amount_bucket"] = df["amount"].apply(bucket_amount)
 
-X = df[["text", "amount"]]
+df.columns = df.columns.str.strip()
+
+X = df[
+    ["text",
+     "amount_bucket",
+     "text_length",
+     "has_known_merchant",
+     "has_food_word",
+     "has_health_word",
+     "has_entertainment_word"]
+]
+
 y = df["category"].str.lower().str.strip()
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -32,10 +48,20 @@ categorical_features = ["amount_bucket"]
 preprocessor = ColumnTransformer(
     transformers=[
         ("text", TfidfVectorizer(), "text"),
-        ("cat", OneHotEncoder(), categorical_features),
-        ("num", "passthrough", numeric_features),
+        ("cat", OneHotEncoder(), ["amount_bucket"]),
+        ("num", "passthrough", [
+            "text_length",
+            "has_known_merchant",
+            "has_food_word",
+            "has_health_word",
+            "has_entertainment_word"
+        ]),
     ]
 )
+
+print(X.head())
+print(X.columns)
+
 
 model = Pipeline([
     ("preprocessor", preprocessor),
