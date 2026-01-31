@@ -77,8 +77,11 @@ model = Pipeline([
     ("preprocessor", preprocessor),
     ("classifier", LogisticRegression(
         solver="liblinear",
-        max_iter=1000
-    ))
+        max_iter=2000,
+        C=2.0,
+        class_weight="balanced"
+        )
+    )
 ])
 
 model.fit(X_train, y_train)
@@ -88,3 +91,5 @@ accuracy = accuracy_score(y_test, preds)
 
 print("v0.4 Accuracy:", accuracy)
 
+from collections import Counter
+print(Counter(y_test))
