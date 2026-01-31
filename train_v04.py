@@ -11,25 +11,35 @@ from features import (
     extract_structured_features
 )
 
-df = pd.read_csv("expenses.csv")
+df = pd.read_csv("C:\\Users\\mailp\\Desktop\\ExpP\\Expense-Categorizer\\expenses.csv")
+df.columns = df.columns.str.strip()
 
-structured_df = df["text"].apply(extract_structured_features)
+structured_df = df.apply(
+    lambda row: extract_structured_features(row["text"], row["amount"]),
+    axis=1
+)
+
 structured_df = pd.DataFrame(structured_df.tolist())
+
+print(structured_df.head())
+print(structured_df.columns)
+
 
 df = pd.concat([df, structured_df], axis=1)
 df["amount_bucket"] = df["amount"].apply(bucket_amount)
 
-df.columns = df.columns.str.strip()
-
 X = df[
-    ["text",
-     "amount_bucket",
-     "text_length",
-     "has_known_merchant",
-     "has_food_word",
-     "has_health_word",
-     "has_entertainment_word"]
+    [
+        "text",
+        "text_length",
+        "has_known_merchant",
+        "has_food_word",
+        "has_health_word",
+        "has_entertainment_word",
+        "amount_bucket",
+    ]
 ]
+
 
 y = df["category"].str.lower().str.strip()
 

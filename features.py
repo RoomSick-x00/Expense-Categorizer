@@ -30,15 +30,15 @@ def contains_any(text: str, words: list[str])-> int:
 
 def keyword_features(text: str) -> dict:
     return {
-        "has_food_words": contains_any(text, FOOD_WORDS),
-        "has_health_words": contains_any(text, HEALTH_WORDS),
-        "has_entertainment_words": contains_any(text, ENTERTAINMENT_WORDS),
+        "has_food_word": contains_any(text, FOOD_WORDS),
+        "has_health_word": contains_any(text, HEALTH_WORDS),
+        "has_entertainment_word": contains_any(text, ENTERTAINMENT_WORDS),
     }
     
 def extract_structured_features(text: str, amount: float) -> dict:
     features = {
         "text_length": text_len_feature(text),
-        "amount_bucket": amount_bucket(amount),
+        "amount_bucket": bucket_amount(amount),
         "has_known_merchant": has_known_merchant(text),
     }
 
